@@ -19,7 +19,7 @@ export default function ClinicianPage() {
           </div>
           <h2 className="text-xl font-bold text-gray-900 mb-2">Clinician form submitted</h2>
           <p className="text-gray-500 text-sm mb-6">
-            Check your email — we&apos;ve sent you the links to share with the young person and parent/carer.
+            Check your email - we&apos;ve sent you the links to share with the young person and parent/carer.
             You&apos;ll receive a separate email with the report link once all three questionnaires are complete.
           </p>
           <div className="bg-blue-50 rounded-xl p-4 text-left">

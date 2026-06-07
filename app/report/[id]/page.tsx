@@ -134,24 +134,24 @@ export default function ReportPage() {
           </h2>
           <div className="space-y-4 text-sm text-gray-700 leading-relaxed">
             <div>
-              <p className="font-semibold text-gray-800 mb-1">PAGE 1: Plots 1–3 — Symptoms, Risk, and Disruption</p>
+              <p className="font-semibold text-gray-800 mb-1">PAGE 1: Plots 1–3 - Symptoms, Risk, and Disruption</p>
               <p>Each plot shows the degree of symptoms, risk, or disruption experienced by the young person as rated by the Clinician (CL), the Young Person (YP), and their Parent/Carer (P/C). Higher scores indicate items that may benefit more from consideration when deciding on transition pathways.</p>
               <p className="mt-1 text-gray-500">Severity and frequency scores have been summed for each item within the symptom and risk domains to give a score out of 10. Where a score is not present it is because that item is not experienced by the young person.</p>
             </div>
             <div>
-              <p className="font-semibold text-gray-800 mb-1">PAGE 1: Plot 4 — Potential Barriers to a Smooth Transition</p>
+              <p className="font-semibold text-gray-800 mb-1">PAGE 1: Plot 4 - Potential Barriers to a Smooth Transition</p>
               <p>This plot shows the type and level of potential barriers to successful transition as rated by all three respondents. These are key areas that need to be worked on to ensure successful transition. Where a score is not present, the young person was considered to have no problems in that area.</p>
             </div>
             <div>
               <p className="font-semibold text-gray-800 mb-1">PAGE 2: Score Summary Report</p>
-              <p>The summary report is divided into two sections: items relevant to the clinician&apos;s transition decision (Part A), and items that, if worked on, may result in a smoother transition (Part B). <span className="bg-yellow-100 px-1 rounded">Highlighted rows</span> are items scored as moderate or higher — these are items that may benefit most from consideration.</p>
+              <p>The summary report is divided into two sections: items relevant to the clinician&apos;s transition decision (Part A), and items that, if worked on, may result in a smoother transition (Part B). <span className="bg-yellow-100 px-1 rounded">Highlighted rows</span> are items scored as moderate or higher - these are items that may benefit most from consideration.</p>
             </div>
           </div>
         </section>
 
         {/* PAGE 1: CHARTS */}
         <section className="mb-8">
-          <h2 className="text-lg font-bold text-[#1e3a5f] mb-6">Page 1 — Plots</h2>
+          <h2 className="text-lg font-bold text-[#1e3a5f] mb-6">Page 1 - Plots</h2>
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <ChartCard title="Plot 1: Symptoms" data={symptomsData} maxValue={10} />
@@ -162,18 +162,18 @@ export default function ReportPage() {
 
           {(symptomsData.length === 0 && riskData.length === 0 && disruptionData.length === 0 && barriersData.length === 0) && (
             <div className="bg-white rounded-xl border border-gray-100 p-8 text-center text-gray-400 text-sm">
-              No items scored above zero — no chart data to display.
+              No items scored above zero - no chart data to display.
             </div>
           )}
         </section>
 
         {/* PAGE 2: SCORE TABLES */}
         <section className="mb-8">
-          <h2 className="text-lg font-bold text-[#1e3a5f] mb-6">Page 2 — Score Summary</h2>
+          <h2 className="text-lg font-bold text-[#1e3a5f] mb-6">Page 2 - Score Summary</h2>
 
           <div className="space-y-6">
             <ScoreTable
-              title="Part A — Appropriateness for Transition"
+              title="Part A - Appropriateness for Transition"
               subtitle=""
               sections={[
                 {
@@ -277,7 +277,7 @@ export default function ReportPage() {
             />
 
             <ScoreTable
-              title="Part B — Readiness for Transition"
+              title="Part B - Readiness for Transition"
               subtitle=""
               sections={[
                 {

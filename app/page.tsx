@@ -89,7 +89,7 @@ export default function Home() {
             <li className="flex gap-2"><span className="text-[#1e3a5f] font-bold">1.</span> You complete the clinician questionnaire</li>
             <li className="flex gap-2"><span className="text-[#1e3a5f] font-bold">2.</span> Share unique links with the young person and parent/carer</li>
             <li className="flex gap-2"><span className="text-[#1e3a5f] font-bold">3.</span> Once all three are done, you receive the full report by email</li>
-            <li className="flex gap-2"><span className="text-[#1e3a5f] font-bold">4.</span> View charts, scores, and clinical guidance — download as PDF</li>
+            <li className="flex gap-2"><span className="text-[#1e3a5f] font-bold">4.</span> View charts, scores, and clinical guidance - download as PDF</li>
           </ol>
         </div>
 

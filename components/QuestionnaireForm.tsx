@@ -147,7 +147,7 @@ export default function QuestionnaireForm({ respondent, assessmentId, token, onC
 
             {domain === 1 && (
               <p className="text-sm text-gray-500 mb-4 ml-10">
-                For each symptom, rate how often it is experienced (Frequency) and how severe it is (Severity). If not experienced, select 0 for frequency — no severity rating needed.
+                For each symptom, rate how often it is experienced (Frequency) and how severe it is (Severity). If not experienced, select 0 for frequency - no severity rating needed.
               </p>
             )}
             {domain === 4 && (
