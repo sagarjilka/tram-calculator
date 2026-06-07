@@ -7,7 +7,7 @@ import {
 } from 'recharts'
 import {
   buildSymptomsChart, buildRiskChart, buildDisruptionChart, buildBarriersChart,
-  isHighlighted, getFreqSevScore, getScore,
+  isHighlighted, getScore,
 } from '@/lib/scoring'
 
 type ResponseData = Record<string, number>
@@ -209,6 +209,10 @@ export default function ReportPage() {
                   description: '0 = No disruption · 1 = Some · 2 = Moderate · 3 = Significant · 4 = Total disruption',
                   columns: ['CL', 'YP', 'P/C'],
                   subheaders: [],
+                  summary: (() => {
+                    const ids = ['dis_selfcare','dis_sleep','dis_household','dis_community','dis_social','dis_responsibility','dis_family','dis_friends','dis_peers','dis_education']
+                    return { label: 'Total areas affected (score ≥ 1)', values: [countAreasAffected(cl, ids), countAreasAffected(yp, ids), countAreasAffected(par, ids)] }
+                  })(),
                   rows: buildSimpleRows(cl, yp, par, [
                     { id: 'dis_selfcare', label: 'Self care' },
                     { id: 'dis_sleep', label: 'Sleep' },
@@ -241,6 +245,10 @@ export default function ReportPage() {
                   description: '0 = Not present · 1 = Present. Crisis frequency: 0–4.',
                   columns: ['CL', 'YP', 'P/C'],
                   subheaders: [],
+                  summary: (() => {
+                    const ids = ['fac_crisis_service','fac_inpatient','fac_relapse','fac_ongoing_tx','fac_drug_alcohol','fac_comorbidity','fac_side_effects']
+                    return { label: 'Total factors present', values: [countFactorsPresent(cl, ids), countFactorsPresent(yp, ids), countFactorsPresent(par, ids)] }
+                  })(),
                   rows: buildSimpleRows(cl, yp, par, [
                     { id: 'fac_crisis_service', label: 'Service use in times of crisis' },
                     { id: 'fac_crisis_freq', label: 'Frequency of crisis service use' },
@@ -277,6 +285,10 @@ export default function ReportPage() {
                   description: '0 = No barrier · 1 = Minor · 2 = Moderate · 3 = Severe barrier',
                   columns: ['CL', 'YP', 'P/C'],
                   subheaders: [],
+                  summary: (() => {
+                    const ids = ['bar_independence','bar_condition','bar_service_knowledge','bar_motivation','bar_medication','bar_social_support','bar_carers','bar_team_relations','bar_history']
+                    return { label: 'Moderate or severe barriers (score ≥ 2)', values: [countModerateOrAbove(cl, ids, 2), countModerateOrAbove(yp, ids, 2), countModerateOrAbove(par, ids, 2)] }
+                  })(),
                   rows: buildSimpleRows(cl, yp, par, [
                     { id: 'bar_independence', label: 'Inability to act independently' },
                     { id: 'bar_condition', label: 'Poor condition understanding' },
@@ -294,6 +306,12 @@ export default function ReportPage() {
                   description: '-1 = Positive change · 0 = No change / no impact · +1 = Negative change',
                   columns: ['YP', 'P/C'],
                   subheaders: [],
+                  summary: (() => {
+                    const ids = ['lc_family','lc_friends','lc_house','lc_school','lc_illness_death','lc_police','lc_pregnancy','lc_other']
+                    const ypPos = countLifeChanges(yp, ids, -1), ypNeg = countLifeChanges(yp, ids, 1)
+                    const parPos = countLifeChanges(par, ids, -1), parNeg = countLifeChanges(par, ids, 1)
+                    return { label: 'Positive (−1) / Negative (+1) changes', values: [`${ypPos} / ${ypNeg}`, `${parPos} / ${parNeg}`] }
+                  })(),
                   rows: buildLifeChangeRows(yp, par, [
                     { id: 'lc_family', label: 'Family relationships' },
                     { id: 'lc_friends', label: 'Relationships with friends and partner' },
@@ -372,6 +390,25 @@ interface TableSection {
   columns: string[]
   subheaders: string[]
   rows: TableRow[]
+  summary?: { label: string; values: (number | string)[] }
+}
+
+// ── Aggregate count helpers (matching Excel COUNTIFS summary rows) ────────────
+
+function countAreasAffected(responses: ResponseData, ids: string[]): number {
+  return ids.filter(id => (responses[id] ?? 0) >= 1).length
+}
+
+function countModerateOrAbove(responses: ResponseData, ids: string[], threshold: number): number {
+  return ids.filter(id => (responses[id] ?? 0) >= threshold).length
+}
+
+function countFactorsPresent(responses: ResponseData, ids: string[]): number {
+  return ids.filter(id => (responses[id] ?? 0) >= 1).length
+}
+
+function countLifeChanges(responses: ResponseData, ids: string[], value: number): number {
+  return ids.filter(id => (responses[id] ?? 0) === value).length
 }
 
 function buildFreqSevRows(
@@ -460,6 +497,18 @@ function ScoreTable({ title, sections }: { title: string; subtitle: string; sect
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
+                  {section.summary && (
+                    <tr className="bg-blue-50 border-b border-blue-100">
+                      <td className="px-2 py-2 font-semibold text-[#1e3a5f] italic">
+                        {section.summary.label}
+                      </td>
+                      {section.summary.values.map((val, vi) => (
+                        <td key={vi} className="text-center px-2 py-2 font-bold text-[#1e3a5f]">
+                          {val}
+                        </td>
+                      ))}
+                    </tr>
+                  )}
                   {section.rows.map((row, ri) => (
                     <tr key={ri} className={row.highlight ? 'bg-yellow-50' : ''}>
                       <td className={`px-2 py-2 font-medium ${row.highlight ? 'text-amber-800' : 'text-gray-700'}`}>
